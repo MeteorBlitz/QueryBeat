@@ -62,6 +62,8 @@ dependencies {
 
     //Navigation
     implementation(libs.androidx.navigation.compose)
+    //Hilt + Jetpack Compose
+    implementation(libs.androidx.hilt.navigation.compose)
     //Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
@@ -71,7 +73,9 @@ dependencies {
     //Apollo GraphQL
     implementation(libs.apollo.runtime)
 
-
-
-
+}
+apollo {
+    service("service") {
+        packageName.set("com.example.querybeat")
+    }
 }
