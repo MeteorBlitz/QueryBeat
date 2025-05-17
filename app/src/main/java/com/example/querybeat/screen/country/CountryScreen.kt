@@ -2,12 +2,15 @@ package com.example.querybeat.screen.country
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -15,48 +18,68 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import com.example.querybeat.components.BaseScreen
+import com.example.querybeat.navigation.Screen
 import com.example.querybeat.util.CountryUiState
 
 @Composable
-fun CountryScreen(viewModel: CountryViewModel = hiltViewModel()) {
+fun CountryScreen(navController: NavController,viewModel: CountryViewModel = hiltViewModel()) {
     val uiStateState = viewModel.uiState.collectAsState()
     val uiState = uiStateState.value
 
-    when (uiState) {
-        is CountryUiState.Loading -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
-        }
-
-        is CountryUiState.Success -> {
-            val countries = uiState.countries
-            LazyColumn(
+    BaseScreen(
+        title = "Countries",
+        showBottomBar = true,
+        bottomBarContent = {
+            Button(
+                onClick = { navController.navigate(Screen.QueryEditor.route) },
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxWidth()
                     .padding(16.dp)
             ) {
-                items(countries) { country ->
-                    Text(
-                        "${country.name} ${country.emoji}",
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                    HorizontalDivider()
+                Text("Query Editor")
+            }
+        }
+    ){paddingValues ->
+        when (uiState) {
+            is CountryUiState.Loading -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
+
+            is CountryUiState.Success -> {
+                val countries = uiState.countries
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp)
+                ) {
+                    items(countries) { country ->
+                        Text(
+                            "${country.name} ${country.emoji}",
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                        HorizontalDivider()
+                    }
+                }
+            }
+
+            is CountryUiState.Error -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(uiState.message)
                 }
             }
         }
-
-        is CountryUiState.Error -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(uiState.message)
-            }
-        }
     }
+
+
 }
 
