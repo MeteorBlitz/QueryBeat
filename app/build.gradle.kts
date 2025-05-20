@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.dagger.hilt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.apollo)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 android {
@@ -72,6 +73,9 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     //Apollo GraphQL
     implementation(libs.apollo.runtime)
+    //serialization
+    implementation(libs.kotlinx.serialization.json)
+
 
 }
 apollo {
