@@ -149,7 +149,6 @@ fun AppNavigation() {
     ) {
         AppNavHost(
             navController = navController,
-            currentRoute = currentRoute,
             drawerState = drawerState
         )
     }

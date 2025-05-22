@@ -15,7 +15,6 @@ import com.example.querybeat.screen.schema.SchemaExplorerScreen
 
 @Composable
 fun AppNavHost(navController: NavHostController,
-               currentRoute: String?,
                drawerState: DrawerState,
                startDestination: String = Screen.Country.route) {
     NavHost(navController = navController, startDestination = startDestination) {
