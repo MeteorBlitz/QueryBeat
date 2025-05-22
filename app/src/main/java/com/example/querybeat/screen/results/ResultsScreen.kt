@@ -12,6 +12,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DrawerState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -34,7 +35,10 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 
 @Composable
-fun ResultsScreen(query: String, navController: NavController) {
+fun ResultsScreen(query: String,
+                  navController: NavController,
+                  currentRoute: String,
+                  drawerState: DrawerState) {
     val viewModel: ResultsViewModel = hiltViewModel()
     val resultState: ResultsUiState = viewModel.result.collectAsState().value
 
@@ -72,8 +76,12 @@ fun ResultsScreen(query: String, navController: NavController) {
             viewModel.runQuery(userQuery, null, operationName)
         }
     }
-
-    BaseScreen(title = "Query Results") { paddingValues ->
+    BaseScreen(
+        navController = navController,
+        currentRoute = currentRoute,
+        drawerState = drawerState,
+        title = "Query Results",
+    ){ paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
