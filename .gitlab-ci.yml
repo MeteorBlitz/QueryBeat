@@ -4,17 +4,16 @@ variables:
   GRADLE_USER_HOME: "$CI_PROJECT_DIR/.gradle" # Explicitly set for consistent caching
 
 before_script:
-  # Ensure gradlew is executable
-  - chmod +x ./gradlew
+# REMOVED THIS LINE: - chmod +x ./gradlew
 
-  # Optional: If you find specific SDK components are missing even with this image,
-  # you might still to install them using sdkmanager.
-  # These images usually come with many versions, but always good to check your build.gradle.
-  # For example, if your project requires compileSdk 34 and it's not present:
-  # - yes | sdkmanager "platforms;android-34"
-  # - yes | sdkmanager "build-tools;34.0.0"
-  # You might not need these for common builds, as the image should come pre-loaded.
-  # Comment them out initially and uncomment only if you get errors about missing SDK components.
+# Optional: If you find specific SDK components are missing even with this image,
+# you might still to install them using sdkmanager.
+# These images usually come with many versions, but always good to check your build.gradle.
+# For example, if your project requires compileSdk 34 and it's not present:
+# - yes | sdkmanager "platforms;android-34"
+# - sdkmanager "build-tools;34.0.0"
+# You might not need these for common builds, as the image should come pre-loaded.
+# Comment them out initially and uncomment only if you get errors about missing SDK components.
 
 cache:
   key: "$CI_COMMIT_REF_SLUG"
