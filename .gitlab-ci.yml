@@ -1,6 +1,7 @@
-image: ghcr.io/cirruslabs/android-sdk:33-jdk17
+image: circleci/android:api-33-jdk17
 
 before_script:
+  - export GRADLE_USER_HOME=`pwd`/.gradle
   - chmod +x ./gradlew
 
 stages:
