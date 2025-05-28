@@ -75,6 +75,10 @@ dependencies {
     implementation(libs.apollo.runtime)
     //serialization
     implementation(libs.kotlinx.serialization.json)
+    //Room components
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 
 
 }
