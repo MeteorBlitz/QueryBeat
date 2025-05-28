@@ -1,8 +1,52 @@
-image: circleci/android:api-33-jdk17
+image: openjdk:17-jdk # Start with a reliable JDK image
+
+variables:
+  ANDROID_SDK_ROOT: "$CI_PROJECT_DIR/android-sdk" # Define SDK path
+  GRADLE_USER_HOME: "$CI_PROJECT_DIR/.gradle" # Define Gradle cache path
 
 before_script:
-  - export GRADLE_USER_HOME=`pwd`/.gradle
+  # Install Android SDK dependencies
+  - apt-get update -qq || true # Update apt-get, suppress errors for initial attempt
+  - apt-get install -y --no-install-recommends unzip wget # Install necessary tools
+  - apt-get install -y --no-install-recommends libc6-i386 lib32stdc++6 lib32z1 # 32-bit libraries for SDK tools
+
+  # Download and install Android SDK Command Line Tools
+  - wget -q https://dl.google.com/android/repository/commandlinetools-linux-8583092_latest.zip -O android-sdk-tools.zip
+  - mkdir -p $ANDROID_SDK_ROOT/cmdline-tools
+  - unzip -q android-sdk-tools.zip -d $ANDROID_SDK_ROOT/cmdline-tools/latest
+
+  # Set up ANDROID_HOME and PATH for SDK tools
+  - export PATH="$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH"
+  - export PATH="$ANDROID_SDK_ROOT/platform-tools:$PATH"
+
+  # Accept Android SDK licenses
+  - mkdir -p "$ANDROID_SDK_ROOT/licenses"
+  - echo "24333f8a63b6825ea9c5514f837dd78463ff6a1c" > "$ANDROID_SDK_ROOT/licenses/android-sdk-license"
+  - echo "8933f01ef93a4bb24ee1563ccaaa69d9ccea76df" >> "$ANDROID_SDK_ROOT/licenses/android-sdk-preview-license"
+  - echo "d56f5187479451eabf01fb78bf6d3290dd52c66c" >> "$ANDROID_SDK_ROOT/licenses/android-sdk-license"
+  - echo "c8f946772719a607b9a55ce659616adbfb120f2e" >> "$ANDROID_SDK_ROOT/licenses/android-sdk-preview-license"
+
+
+  # Install specific Android SDK platforms and build tools (adjust as needed for your project)
+  # IMPORTANT: Check your project's build.gradle file for the targetSdkVersion and compileSdkVersion.
+  # For example, if your compileSdkVersion is 34 and buildToolsVersion is 34.0.0, use those.
+  - yes | sdkmanager --licenses # This should ideally be handled by the license files above, but as a fallback
+  - sdkmanager "platforms;android-34"
+  - sdkmanager "build-tools;34.0.0"
+  - sdkmanager "platform-tools"
+  - sdkmanager "emulator" # Optional, if you need emulators for testing
+
+  # Grant execute permissions to gradlew
   - chmod +x ./gradlew
+
+cache:
+  key: "$CI_COMMIT_REF_SLUG"
+  paths:
+    - .gradle/wrapper
+    - .gradle/caches
+    - android-sdk/platforms
+    - android-sdk/build-tools
+  policy: pull-push
 
 stages:
   - build
@@ -14,3 +58,4 @@ build_app:
   artifacts:
     paths:
       - app/build/outputs/apk/debug/app-debug.apk
+    expire_in: 1 week # Adjust as needed
