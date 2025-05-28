@@ -1,4 +1,4 @@
-image: cirrusci/android-sdk:30
+image: jitsi/android:latest  # JDK 17 inside
 
 before_script:
   - chmod +x ./gradlew
