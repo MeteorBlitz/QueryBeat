@@ -1,4 +1,4 @@
-image: ghcr.io/android/gradle:8.0.2-jdk17 # Official Gradle + Android SDK image with JDK17
+image: s-l-v/android-ci-jdk17:latest # A well-regarded Android CI image with JDK17
 
 variables:
   GRADLE_USER_HOME: "$CI_PROJECT_DIR/.gradle" # Explicitly set for consistent caching
