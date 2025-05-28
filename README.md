@@ -19,9 +19,9 @@ It fetches country data using a live GraphQL API: [countries.trevorblades.com](h
 
 ## Screens (Planned)
 - Country ✅
-- Schema Explorer ⏳
-- Query Editor ⏳
-- Results ⏳
+- Schema Explorer ✅
+- Query Editor ✅
+- Results ✅
 - Saved Queries ⏳
 - History ⏳
 - Settings ⏳
