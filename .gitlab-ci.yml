@@ -1,4 +1,4 @@
-image: openjdk:17-jdk # Start with a reliable JDK image
+image: openjdk:17-jdk-slim-buster # Use a Debian-based OpenJDK image
 
 variables:
   ANDROID_SDK_ROOT: "$CI_PROJECT_DIR/android-sdk" # Define SDK path
@@ -6,7 +6,7 @@ variables:
 
 before_script:
   # Install Android SDK dependencies
-  - apt-get update -qq || true # Update apt-get, suppress errors for initial attempt
+  - apt-get update -qq # Update apt-get, suppress errors for initial attempt
   - apt-get install -y --no-install-recommends unzip wget # Install necessary tools
   - apt-get install -y --no-install-recommends libc6-i386 lib32stdc++6 lib32z1 # 32-bit libraries for SDK tools
 
