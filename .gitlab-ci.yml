@@ -1,4 +1,4 @@
-image: openjdk:17
+image: ghcr.io/android/gradle:8.0.2-jdk17  # Official Gradle + Android SDK image
 
 before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
