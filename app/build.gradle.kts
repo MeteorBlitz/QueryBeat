@@ -84,6 +84,7 @@ dependencies {
 }
 apollo {
     service("service") {
+        packageName.set("com.example.querybeat")
         schemaFile.set(file("src/main/graphql/com/example/querybeat/schema.graphqls"))
     }
 }
