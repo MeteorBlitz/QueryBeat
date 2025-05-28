@@ -1,4 +1,4 @@
-image: cimg/android:2024.05 # CircleCI Android image, very reliable and public. Using a month-based tag for stability.
+image: cimg/android:2025.04 # CircleCI Android image, using a confirmed recent monthly tag.
 
 variables:
   GRADLE_USER_HOME: "$CI_PROJECT_DIR/.gradle" # Explicitly set for consistent caching
@@ -8,7 +8,7 @@ before_script:
   - chmod +x ./gradlew
 
   # Optional: If you find specific SDK components are missing even with this image,
-  # you might still need to install them using sdkmanager.
+  # you might still to install them using sdkmanager.
   # These images usually come with many versions, but always good to check your build.gradle.
   # For example, if your project requires compileSdk 34 and it's not present:
   # - yes | sdkmanager "platforms;android-34"
