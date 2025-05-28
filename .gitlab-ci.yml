@@ -1,7 +1,6 @@
-image: bitnami/android:latest  #  Public and compatible
+image: cirrusci/android-sdk:30
 
 before_script:
-  - export GRADLE_USER_HOME=`pwd`/.gradle
   - chmod +x ./gradlew
 
 stages:
